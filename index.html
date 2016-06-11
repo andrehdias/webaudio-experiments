@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WebAudio Experiments</title>
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			text-align: center;
+			width: 100%;
+		}
+
+		.meter {
+		  width: 0%;
+		  height: 40px;
+		  background: green;
+		  transition: all .05s;
+		}
+
+		button {
+			width: 80px;
+			height: 30px;
+			border: none;
+			background-color: purple;
+			color: #fff;
+			margin: 20px 0;
+		}
+	</style>
+</head>
+<body>	
+	<div class="meter"></div>
+	<div class="meter"></div>
+
+	<button id="play">Play</button>
+	
+	<script src="js/webaudio.js"></script>
+	<script>
+		(function(){
+		  // http://www.bensound.com For the sound
+		  var webaudio = new webAudio('bensound-dubstep.mp3');  
+		})();
+	</script>
+</body>
+</html>
