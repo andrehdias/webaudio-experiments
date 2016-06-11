@@ -10,16 +10,28 @@
 			padding: 0;
 		}
 
-		body {
-			text-align: center;
+		body {			
 			width: 100%;
+			font-family: Helvetica;
 		}
 
-		.meter {
-		  width: 0%;
-		  height: 40px;
+		h2 {
+			margin: 10px;
+		}
+	
+		.meter__wrapper {
+			width: 100%;
+			height: 400px;			
+
+			display: flex;
+		}
+
+		.meter {		  
+		  height: 0%;
 		  background: green;
 		  transition: all .05s;
+
+		  align-self: flex-end;
 		}
 
 		button {
@@ -30,19 +42,26 @@
 			color: #fff;
 			margin: 20px 0;
 		}
+
+		.center {
+			text-align: center;
+		}
 	</style>
 </head>
 <body>	
-	<div class="meter"></div>
-	<div class="meter"></div>
+	<h2>Audio Bars</h2>
 
-	<button id="play">Play</button>
+	<div class="meter__wrapper"></div>
+	
+	<div class="center">
+		<button id="play">Play</button>
+	</div>
 	
 	<script src="js/webaudio.js"></script>
 	<script>
 		(function(){
 		  // http://www.bensound.com For the sound
-		  var webaudio = new webAudio('bensound-dubstep.mp3');  
+		  new audioBars('bensound-dubstep.mp3');  
 		})();
 	</script>
 </body>
