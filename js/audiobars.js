@@ -4,7 +4,7 @@ function audioBars(url) {
   this.play = document.getElementById("play"); //Play button
 
   this.meterWrapper = document.querySelector('.meter__wrapper'); //Meter wrapper
-  this.meterNumber = 30; //Number of bars
+  this.meterNumber = 60; //Number of bars
   this.appendMeters();
 
   this.initialized = false;
