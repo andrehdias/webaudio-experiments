@@ -49,7 +49,7 @@ audioBars.prototype = {
   },
 
   //Append bars to meter wrapper
-  appendMeters() {
+  appendMeters: function() {
     var wrapperSize = this.meterWrapper.offsetWidth;
         meterWidth = wrapperSize / this.meterNumber;
 
