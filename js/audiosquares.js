@@ -8,6 +8,7 @@ function audioSquares(url) {
   this.append();
 
   this.initialized = false;
+  this.animationComplete = true;
   this.bind();
 }
 
@@ -62,23 +63,30 @@ audioSquares.prototype = {
   },
 
   processAnime: function(evt) {
-    var _this = this;        
-        input = evt.inputBuffer.getChannelData(0),
-        len = input.length,
-        total = i = 0,    
-        rms = 0;
+    if(this.animationComplete) {
+      var _this = this;        
+          input = evt.inputBuffer.getChannelData(0),
+          len = input.length,
+          total = i = 0,    
+          rms = 0;
 
-    while (i < len) total += Math.abs(input[i++]);
-    rms = Math.sqrt(total/len) * 10;
+      while (i < len) total += Math.abs(input[i++]);
+      rms = Math.sqrt(total/len) * 10;
 
-    anime({
-      targets: '.audioSquares div',
-      translateX: function() { return rms / 10 + 'rem'; },
-      translateY: function() { return rms / 10 + 'rem'; },
-      scale: function() { return rms / 5; },
-      rotate: function() { return (rms * 3) * anime.random(-1, 1); },
-      duration: 10,
-      direction: 'alternate'
-    });
+      this.animationComplete = false;
+
+      anime({
+        targets: '.audioSquares div',
+        translateX: function() { return (rms / 5) * anime.random(-1, 1) + 'rem'; },
+        translateY: function() { return (rms / 5) * anime.random(-1, 1) + 'rem'; },
+        scale: function() { return rms / 4; },
+        rotate: function() { return (rms * 3) * anime.random(-1, 1); },
+        duration: 200,
+        direction: 'alternate',
+        complete: function() {
+          _this.animationComplete = true;
+        }
+      });      
+    }
   }
 }
