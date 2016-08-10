@@ -1,17 +1,17 @@
-function audiograph(url) {
+function audioSquares(url) {
   this.url = url;  
 
   this.play = document.getElementById("play"); //Play button
 
-  this.meterWrapper = document.querySelector('.meter__wrapper'); //Meter wrapper
-  this.meterNumber = 60; //Number of bars
+  this.squaresWrapper = document.querySelector('.audioSquares'); //Squares wrapper
+  this.squaresNumber = 210; //Number of squares
   this.append();
 
   this.initialized = false;
   this.bind();
 }
 
-audiograph.prototype = {
+audioSquares.prototype = {
   //Setups the sound of the url passed as parameter of the class
   setup: function() {
     var _this = this;          
@@ -26,7 +26,7 @@ audiograph.prototype = {
     this.processor.connect(this.ctx.destination);
     
     this.processor.onaudioprocess = function(evt){
-      _this.calcVolume(evt);
+      _this.processAnime(evt);
     }
   },
 
@@ -48,41 +48,37 @@ audiograph.prototype = {
     });    
   },
 
-  //Append bars to meter wrapper
-  append: function() {
-    var maxElements = 210;
+  append: function() {    
     var colors = ['#FF324A', '#31FFA6', '#206EFF', '#FFFF99'];    
     var sectionEl = document.createElement('section');
 
-    for (var i = 0; i < maxElements; i++) {
+    for (var i = 0; i < this.squaresNumber; i++) {
       var el = document.createElement('div');
       el.style.background = colors[anime.random(0, 3)];
       sectionEl.appendChild(el);
     }
 
-    document.body.appendChild(sectionEl);
+    this.squaresWrapper.appendChild(sectionEl);    
   },
 
-  //Calculates loudness and sets the meters height according to it
-  calcVolume: function(evt) {
+  processAnime: function(evt) {
     var _this = this;        
         input = evt.inputBuffer.getChannelData(0),
-        len = input.length;        
+        len = input.length,
+        total = i = 0,    
+        rms = 0;
 
-    for(var x = 0; x < _this.meter.length; x++) {            
-      _this.meter[x].style.height = ( Math.abs(input[x]) * 100 ) + '%';                                                    
-    }      
+    while (i < len) total += Math.abs(input[i++]);
+    rms = Math.sqrt(total/len) * 10;
+
+    anime({
+      targets: '.audioSquares div',
+      translateX: function() { return rms / 10 + 'rem'; },
+      translateY: function() { return rms / 10 + 'rem'; },
+      scale: function() { return rms / 5; },
+      rotate: function() { return (rms * 3) * anime.random(-1, 1); },
+      duration: 10,
+      direction: 'alternate'
+    });
   }
 }
-
-anime({
-  targets: 'div',
-  translateX: function() { return anime.random(-6, 6) + 'rem'; },
-  translateY: function() { return anime.random(-6, 6) + 'rem'; },
-  scale: function() { return anime.random(10, 20) / 10; },
-  rotate: function() { return anime.random(-360, 360); },
-  delay: function() { return 400 + anime.random(0, 500); },
-  duration: function() { return anime.random(1000, 2000); },
-  direction: 'alternate',
-  loop: true
-});

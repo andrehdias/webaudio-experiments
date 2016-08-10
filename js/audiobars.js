@@ -67,8 +67,7 @@ audioBars.prototype = {
   //Calculates loudness and sets the meters height according to it
   calcVolume: function(evt) {
     var _this = this;        
-        input = evt.inputBuffer.getChannelData(0),
-        len = input.length;        
+        input = evt.inputBuffer.getChannelData(0);        
 
     for(var x = 0; x < _this.meter.length; x++) {            
       _this.meter[x].style.height = ( Math.abs(input[x]) * 100 ) + '%';                                                    
